@@ -50,18 +50,20 @@ export default new Vuex.Store({
         }
       })
       .then(response => {
-        // axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
         
-        let config = { // eslint-disable-line no-unused-vars
-          headers : {
-            "Authorization":"Bearer "+response.data.access
-          }
-        }
-        axios.get('http://127.0.0.1:8000/common/my_page/', config)
+        //let config = { // eslint-disable-line no-unused-vars
+          //headers : {
+          //  "Authorization":"Bearer "+response.data.access
+          //}
+        //}
+        //axios.get('http://127.0.0.1:8000/common/my_page/', config)
+        axios.get('http://127.0.0.1:8000/common/my_page/')
         .then(response => {
           console.log(response.data[0])
           let userInfo = { // eslint-disable-line no-unused-vars
             id: response.data[0].id,
+            username:response.data[0].username,
             email: response.data[0].email,
             sex:response.data[0].sex,
             birth:response.data[0].birth
@@ -74,6 +76,21 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit('logout')
       router.push({ name: "home" })
+    },
+    update({commit, state}, updateObj) { // eslint-disable-line no-unused-vars
+      //console.log(state.userInfo)
+      console.log(updateObj)
+      axios({
+        method: 'put',
+        url: `http://127.0.0.1:8000/common/useredit/${state.userInfo.id}/`,
+        data: updateObj,
+        xstfCookieName: 'csrftoken',
+        xsrfHeaderName: 'X-CSRFToken',
+        headers: {
+          'X-CSRFToken': 'csrftoken',
+        }
+      },
+      commit('loginSuccess', updateObj))
     }
   },
   modules: {},
