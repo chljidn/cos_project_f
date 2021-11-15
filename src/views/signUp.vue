@@ -2,26 +2,6 @@
 	<v-container fill-height style="max-width:450px">
 		<v-layout align-center row wrap>
 			<v-flex xs12>
-        <!--
-				<v-alert
-					class="mb-3"
-					dense
-					outlined
-					:value="isLoginError"
-					type="error"
-				>
-					아이디
-				</v-alert>
-				<v-alert
-					class="mb-3"
-					dense
-					outlined
-					:value="isLogin"
-					type="success"
-				>
-					로그인이 완료되었습니다.
-				</v-alert>
-        -->
 				<v-card>
 					<v-toolbar flat>
 							<v-toolbar-title>회원가입</v-toolbar-title>

@@ -35,7 +35,7 @@ export default new Vuex.Store({
   },
   actions: {
     signUp({commit}, signUpObj) { // eslint-disable-line no-unused-vars
-      console.log(signUpObj)
+      //signUpObj = {'username': , 'password': , 'birth': , 'emial': , 'sex': }
       axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/common/auth/',
