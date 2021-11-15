@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from '../router/index' // eslint-disable-line no-unused-vars
 import axios from "axios"
+
 Vue.use(Vuex);
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -33,9 +34,21 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    signUp({commit}, signUpObj) { // eslint-disable-line no-unused-vars
+      console.log(signUpObj)
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/common/auth/',
+        data: signUpObj
+      })
+      .then(response => {
+        console.log(response.data)
+      })
+
+    },
     // 로그인 시도
     // login.vue에서 입력한 아이디와 패스워드이가 loginObj로 전달이 된다.
-    login({commit}, loginObj) {  // eslint-disable-line no-unused-vars
+    login({dispatch}, loginObj) {  // eslint-disable-line no-unused-vars
       axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/common/auth/',
@@ -50,15 +63,26 @@ export default new Vuex.Store({
         }
       })
       .then(response => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-        
-        //let config = { // eslint-disable-line no-unused-vars
-          //headers : {
-          //  "Authorization":"Bearer "+response.data.access
-          //}
-        //}
-        //axios.get('http://127.0.0.1:8000/common/my_page/', config)
-        axios.get('http://127.0.0.1:8000/common/my_page/')
+        //axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        let token = response.data.access
+        localStorage.setItem('access', token)
+        localStorage.setItem('refresh', response.data.refresh)
+        dispatch('getMemberInfo')
+      })
+    },
+    logout({ commit }) {
+      commit('logout')
+      router.push({ name: "home" })
+    },
+    getMemberInfo({commit}) {
+      let token = localStorage.getItem("access")
+      let config = { // eslint-disable-line no-unused-vars
+        headers : {
+          "Authorization":`Bearer ${token}`,
+        }
+      }
+      axios.get('http://127.0.0.1:8000/common/mypage/', config)
+      //axios.get('http://127.0.0.1:8000/common/my_page/')
         .then(response => {
           console.log(response.data[0])
           let userInfo = { // eslint-disable-line no-unused-vars
@@ -68,14 +92,10 @@ export default new Vuex.Store({
             sex:response.data[0].sex,
             birth:response.data[0].birth
           }
+          console.log(response.data)
           commit('loginSuccess', userInfo)
         })
-
-      })
-    },
-    logout({ commit }) {
-      commit('logout')
-      router.push({ name: "home" })
+      
     },
     update({commit, state}, updateObj) { // eslint-disable-line no-unused-vars
       //console.log(state.userInfo)

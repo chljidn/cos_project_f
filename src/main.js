@@ -14,6 +14,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 new Vue({
   router,
   store,
+  beforeCreate() { 
+    this.$store.dispatch('getMemberInfo')
+  },
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");

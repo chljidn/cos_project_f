@@ -19,6 +19,14 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          
+          <v-list-item router :to="{name:'signup'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>
+                회원가입
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
           <v-list-item v-if="isLogin === false" router :to="{name:'login'}" exact>
             <v-list-item-content>

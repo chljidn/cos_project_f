@@ -30,6 +30,11 @@ const routes = [
       import("../views/Home.vue")
   },
   {
+    path: "/signup",
+    name: "signup",
+    component: () => import("../views/signUp.vue")
+  },
+  {
     path: "/login",
     name: "login",
     beforeEnter : rejectAuthUser, 
