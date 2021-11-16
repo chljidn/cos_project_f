@@ -1,32 +1,33 @@
 
 <template>
-  <div>
-    <v-container
-      v-for="cos in 20"
-      :key="cos"
-      class="grey lighten-5 mb-6"
-    >
-      <v-row
-        :align="cos"
-        no-gutters
-        style="height: 150px;"
+  <v-container class="grey lighten-5">
+    <v-row>
+      <!-- 12(cols) 기준으로 12/4(md) == 3이므로 각 행에 3개의 열이 들어간다 -->
+      <v-col
+      v-for="cos in cosList"
+      :key="cos.prdname"
+      cols="12"
+      sm="6"
+      md="4"
       >
-        <v-col
-          v-for="n in 3"
-          :key="n"
+        <v-card
+          class="pa-2"
+          outlined
+          tile
         >
-          <v-card
-            class="pa-2"
-            outlined
-            tile
-          >
-            <!-- {{cosList[listIndex()].prdname}} -->
-            <!-- <img :src="cos.image"> -->
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        <v-img :src="cos.image" height=100 width=100 />
+        {{cos.prdname}}
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-pagination
+      v-model="page_num"
+      :length="count"
+      :total-visible="7"
+      @input="page_function(page_num)"
+    ></v-pagination>
+  </v-container>
 </template>
 
 <script>
@@ -36,39 +37,52 @@ export default {
     data () {
         return {
             cosList: null,
-            limit: 60, // parameter : 화장품 가져올 갯수
-            offset:0, // 몇 번부터 +60개까지 가져올 것인지
-            alignments: [
-              'start',
-              'center',
-              'end',
-            ],
+            page_num: 1,
+            next: null,
+            previus: null,
             idx: 0,
+            count: null,
         }
     },
-    methods: {
-      listIndex() {
-        console.log(this.idx)
-        return this.idx ++
-      }
-    }, 
     mounted () {
-        axios
-        .get('http://127.0.0.1:8000/app/cos_list/', {
+      // axios.get('http://127.0.0.1:8000/app/cos_list/', {
+      //     params: {
+      //     }
+      //   })
+      //   .then(response => {
+      //     // handle success
+      //     console.log(response);
+      //     this.cosList = response.data.results
+      //     this.next = response.data.next
+      //     this.previous = response.data.previous
+      //     this.count = parseInt(response.data.count/60)
+      //   })
+      //   .catch(error => {
+      //       // handle error
+      //       console.log(error);
+      //   });
+      this.page_function(this.page_num)
+    },
+    methods: {
+      page_function(page_num) {
+         axios.get('http://127.0.0.1:8000/app/cos_list/', {
             params: {
-                limit: 60, 
-                offset: this.offset+60,
+                page: page_num
             }
         })
         .then(response => {
             // handle success
             console.log(response);
             this.cosList = response.data.results
+            this.next = response.data.next
+            this.previous = response.data.previous
+            this.count = parseInt(response.data.count/60)
         })
         .catch(error => {
             // handle error
             console.log(error);
-        });
+        })
+      }
     }
 }
 </script>

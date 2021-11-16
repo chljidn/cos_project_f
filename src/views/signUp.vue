@@ -4,7 +4,7 @@
 			<v-flex xs12>
 				<v-card>
 					<v-toolbar flat>
-							<v-toolbar-title>회원가입</v-toolbar-title>
+							<v-toolbar-title class="flex text-center">회원가입</v-toolbar-title>
 					</v-toolbar>
 					<div class="pa-3">
 						<v-text-field
@@ -35,56 +35,33 @@
               ></v-radio>
             </v-radio-group>
 
-            <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  :return-value.sync="birth"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="birth"
-                      label="birth"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="birth"
-                    no-title
-                    scrollable
-                  >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      text
-                      color="primary"
-                      @click="menu = false"
-                    >
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="primary"
-                      @click="$refs.menu.save(birth)"
-                    >
-                      OK
-                    </v-btn>
-                  </v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-						
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="birth"
+                  label="Birthday date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="birth"
+                :active-picker.sync="activePicker"
+                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                min="1950-01-01"
+                @change="save"
+              ></v-date-picker>
+            </v-menu>
+				
             <v-btn
 							color="grey lighten-1"
 							depressed
@@ -117,15 +94,26 @@ export default {
 			username: null,
 			password: null,
       email: null,
-			birth:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
 			sex: null,
+      // date picker - birth
+      activePicker: null,
+      birth: null,
       menu: false,
-      modal: false,
-      menu2: false,
       }
 	},
+  watch: {
+    // date picker
+    menu (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+  },
 	methods: {
 		...mapActions(['signUp']),
+
+    // date picker
+    save (birth) {
+      this.$refs.menu.save(birth)
+    },
 	}
 }
 </script>
