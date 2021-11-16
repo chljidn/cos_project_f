@@ -54,6 +54,12 @@ const routes = [
     name: "coslist",
     component: () =>
       import("../views/cosList.vue")
+  },
+  { 
+    path: "/cosdetail/:id",
+    name: "cosdetail",
+    component: () =>
+    import("../views/cosDetail.vue")
   }
 ];
 
