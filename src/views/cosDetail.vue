@@ -2,7 +2,7 @@
   <div>
     {{cos.prdname}}
 
-    <v-btn
+      <v-btn
         icon
         :color="btn_color"
         @click="cosLike"
