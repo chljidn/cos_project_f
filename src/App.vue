@@ -45,10 +45,26 @@
           </v-list-item>
           
           <v-list-item router :to="{name:'coslist'}" exact>
-              <v-list-item-content>
-                <v-list-item-title>
-                  화장품 목록
-                </v-list-item-title>
+            <v-list-item-content>
+              <v-list-item-title>
+                화장품 목록
+              </v-list-item-title>
+            </v-list-item-content>  
+          </v-list-item>
+
+          <v-list-item router :to="{name:'recommend'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>
+                화장품 추천
+              </v-list-item-title>
+            </v-list-item-content>  
+          </v-list-item>
+
+          <v-list-item router :to="{name:'qna'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>
+                Q&A
+              </v-list-item-title>
             </v-list-item-content>  
           </v-list-item>
         </v-list-item-group>

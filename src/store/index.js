@@ -31,6 +31,9 @@ export default new Vuex.Store({
       state.isLogin = false
       state.isLoginError = false
       state.userInfo = null
+      // 남아있는 token을 지워준다.
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
     }
   },
   actions: {
@@ -72,7 +75,7 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit('logout')
-      router.push({ name: "home" })
+      router.push({ name: "Home" })
     },
     getMemberInfo({commit}) {
       let token = localStorage.getItem("access")
@@ -94,12 +97,16 @@ export default new Vuex.Store({
           }
           console.log(response.data)
           commit('loginSuccess', userInfo)
+          //router.push({ name: "Home" })
         })
       
     },
     update({commit, state}, updateObj) { // eslint-disable-line no-unused-vars
       //console.log(state.userInfo)
-      console.log(updateObj)
+      // 비밀번호가 null일 경우 기존의 비밀번호를 다시 추가해서 request 요청을 보낸다.
+        console.log(state.userInfo)
+        console.log(state.userInfo.password)
+        console.log(updateObj.password)
       axios({
         method: 'put',
         url: `http://127.0.0.1:8000/common/useredit/${state.userInfo.id}/`,
@@ -108,9 +115,13 @@ export default new Vuex.Store({
         xsrfHeaderName: 'X-CSRFToken',
         headers: {
           'X-CSRFToken': 'csrftoken',
+          "Authorization":`Bearer ${localStorage.getItem("access")}`,
         }
-      },
-      commit('loginSuccess', updateObj))
+      }).then(response => {
+        state.userInfo = response.data.results
+        commit('loginSuccess', updateObj)
+      })
+
     }
   },
   modules: {},

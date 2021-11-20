@@ -60,6 +60,24 @@ const routes = [
     name: "cosdetail",
     component: () =>
     import("../views/cosDetail.vue")
+  },
+  { 
+    path: "/qna",
+    name: "qna",
+    component: () =>
+    import("../views/qna.vue")
+  },
+  {
+    path: "/qna/:id",
+    name: "qnadetail",
+    component: () =>
+    import("../views/qnaDetail.vue")
+  },
+  {
+    path: "/recommend",
+    name: "recommend",
+    component: () =>
+    import("../views/cosRecommend.vue")
   }
 ];
 

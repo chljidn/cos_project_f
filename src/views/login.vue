@@ -35,7 +35,7 @@
 							label="패스워드를 입력하세요"
 						></v-text-field>
 						<v-btn
-							color="primary"
+							color="grey lighten-1"
 							depressed
 							block
 							large

@@ -26,11 +26,11 @@
 				row
 			>
 				<v-radio
-					value="m"
+					value="남"
 					label="남"        
 				></v-radio>
 				<v-radio
-					value="f"
+					value="여"
 					label="여"        
 				></v-radio>
 			</v-radio-group>
