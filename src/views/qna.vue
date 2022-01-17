@@ -11,7 +11,8 @@
         <template v-slot:item="{ item }">
           <tr @click="s(item)">
             <td>{{ item.postname }}</td>
-            <td>{{ item.id }}</td>
+            <td>{{ item.qa_user }}</td>
+            <td>{{item.qaDate}}</td>
           </tr>
       </template>
         </v-data-table>
@@ -23,6 +24,7 @@
 
 <script>
 import axios from "axios"
+// import dayjs from "dayjs"
 export default {
   data () {
     return {

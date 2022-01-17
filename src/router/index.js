@@ -46,9 +46,23 @@ const routes = [
     name: "mypage",
     beforeEnter: onlyAuthUser,
     component: () =>
-      import("../views/myPage.vue")
-  }
-  ,
+      import("../views/myPage.vue"),
+    // mypagebasic의 자식 컴포넌트들
+    children:[
+      {
+        path:'/mypage/myinfo',
+        name:'myinfo',
+        component: () =>
+        import("../views/myInfo.vue")
+      },
+      {
+        path:'/mypage/myreviews',
+        name:'myreviews',
+        component: () =>
+        import("../components/myPageComponents/myReviews.vue")
+      }
+    ]
+  },
   {
     path: "/coslist",
     name: "coslist",

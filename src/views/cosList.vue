@@ -22,8 +22,8 @@
               icon
               :color="btn_color"
               @click="cosLike"
-            >
-              <v-icon>mdi-heart</v-icon>
+          >
+            <v-icon>mdi-heart</v-icon>
           </v-btn>
       </v-col>
     </v-row>

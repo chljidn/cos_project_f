@@ -1,4 +1,6 @@
 <template>
+  <div id="app">
+    <vue-confirm-dialog></vue-confirm-dialog>
   <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
@@ -20,7 +22,7 @@
             </v-list-item-content>
           </v-list-item>
           
-          <v-list-item router :to="{name:'signup'}" exact>
+          <v-list-item v-if ="isLogin == false" router :to="{name:'signup'}" exact>
             <v-list-item-content>
               <v-list-item-title>
                 회원가입
@@ -59,6 +61,14 @@
               </v-list-item-title>
             </v-list-item-content>  
           </v-list-item>
+          
+          <v-list-item exact>
+            <v-list-item-content>
+              <v-list-item-title>
+                리뷰
+              </v-list-item-title>
+            </v-list-item-content>  
+          </v-list-item>
 
           <v-list-item router :to="{name:'qna'}" exact>
             <v-list-item-content>
@@ -77,7 +87,20 @@
       <v-toolbar-title>RECOS</v-toolbar-title>
       
         <v-spacer></v-spacer>
-        <v-menu
+        <v-btn
+              color = "grey lighten-1"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              v-if="isLogin"
+              flat
+              icon
+              @click="clickLogout()"
+            >
+          logout
+        </v-btn>
+        <v-btn flat v-else router :to="{name: 'login'}">login</v-btn>
+        <!-- <v-menu
           top
           :close-on-content-click="closeOnContentClick"
         >
@@ -105,19 +128,21 @@
               <v-list-item-title>{{item.title}}</v-list-item-title>
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
     </v-app-bar>
 
     <v-main>
       <router-view></router-view>
     </v-main>
   </v-app>
+  </div>
 </template>
 
 <script>
-import {mapState} from 'vuex' // eslint-disable-line no-unused-vars
+import {mapState} from 'vuex'; // eslint-disable-line no-unused-vars
 
 export default {
+    name: 'app',
     data: () => ({ 
       drawer: null,
       items: [
@@ -130,12 +155,21 @@ export default {
       ...mapState(['isLogin'])
     },
     methods: {
-      clickFunction(title) {
-        if (title === 'mypage')
-          this.$router.push({name: "mypage"})
-        else 
-          this.$store.dispatch("logout")
+      // clickFunction(title) {
+      //   if (title === 'mypage')
+      //     this.$router.push({name: "mypage"})
+      //   else 
+      //     this.$store.dispatch("logout")
         
+      // },
+      // 안됨... 왜 안되지...
+      clickLogout() {
+        this.$confirm('정말 로그아웃 하시겠습니까?')
+        .then(res => {
+          if (res) {
+           this.$store.dispatch("logout") 
+          }
+        })
       }
     }
   }

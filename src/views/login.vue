@@ -11,15 +11,16 @@
 				>
 					아이디와 비밀번호를 확인해주세요.
 				</v-alert>
-				<v-alert
+				<!-- <v-alert
 					class="mb-3"
 					dense
 					outlined
 					:value="isLogin"
 					type="success"
+
 				>
 					로그인이 완료되었습니다.
-				</v-alert>
+				</v-alert> -->
 				<v-card>
 					<v-toolbar flat>
 							<v-toolbar-title>로그인</v-toolbar-title>
@@ -33,6 +34,10 @@
 							v-model="password"
 							type="password"
 							label="패스워드를 입력하세요"
+              v-on:keyup.enter="login({
+								username:username,
+								password: password
+							})"
 						></v-text-field>
 						<v-btn
 							color="grey lighten-1"
@@ -43,6 +48,7 @@
 								username:username,
 								password: password
 							})"
+          
 						>
 							로그인
 						</v-btn>
@@ -69,6 +75,6 @@ export default {
 	},
 	methods: {
 		...mapActions(['login']),
-	}
+  }
 }
 </script>

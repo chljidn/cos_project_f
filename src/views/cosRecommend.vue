@@ -30,10 +30,12 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.withCredentials = true
 
 export default {
+
   data () {
     return {
       title : null,
-      file: []
+      file: [],
+      
     }
   },
   methods: {

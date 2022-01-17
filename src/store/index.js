@@ -71,6 +71,8 @@ export default new Vuex.Store({
         localStorage.setItem('access', token)
         localStorage.setItem('refresh', response.data.refresh)
         dispatch('getMemberInfo')
+        // 로그인 성공 시 뒤로가기. 
+        router.go(-1)
       })
     },
     logout({ commit }) {
@@ -93,7 +95,9 @@ export default new Vuex.Store({
             username:response.data[0].username,
             email: response.data[0].email,
             sex:response.data[0].sex,
-            birth:response.data[0].birth
+            birth:response.data[0].birth,
+            like:response.data[0].like,
+            reviews:response.data[0].cosreviewmodel_set
           }
           console.log(response.data)
           commit('loginSuccess', userInfo)
