@@ -6,11 +6,13 @@
           :headers="headers"
           :items="qaList"
           class="elevation-1"
-          @click:row="s(item)"
         >
         <template v-slot:item="{ item }">
-          <tr @click="s(item)">
-            <td>{{ item.postname }}</td>
+          <!-- vutify의 data table에서 router :to="{name: 'qnadetail', params: {id: item.id}}" 이 방식은 작동이 안됨 -->
+          <tr class="qa-row">
+            <td 
+              @click="$router.push({name: 'qnadetail', params: {id: item.id}})"
+            >{{ item.postname }}</td>
             <td>{{ item.qa_user }}</td>
             <td>{{item.qaDate}}</td>
           </tr>
@@ -21,6 +23,11 @@
   </v-container>
 </template>
 
+<style>
+  .qa-row {
+    cursor: pointer;
+  }
+</style>
 
 <script>
 import axios from "axios"
@@ -47,15 +54,10 @@ export default {
     )
     .then(response => {
       console.log(response.data.results)
-      console.log(this.desserts)
       this.qaList = response.data.results
     })
   },
   methods:{
-    s(item) {
-      return item
-    }
   }
 }
 </script>
-

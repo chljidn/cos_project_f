@@ -60,7 +60,13 @@ const routes = [
         name:'myreviews',
         component: () =>
         import("../components/myPageComponents/myReviews.vue")
-      }
+      },
+      {
+        path: '/mypage/mylikes',
+        name: 'mylikes',
+        component: () =>
+        import("../components/myPageComponents/myLikes.vue")
+      },
     ]
   },
   {
@@ -85,14 +91,21 @@ const routes = [
     path: "/qna/:id",
     name: "qnadetail",
     component: () =>
-    import("../views/qnaDetail.vue")
+    import("../components/qnaComponents/qnaDetail.vue")
   },
   {
     path: "/recommend",
     name: "recommend",
     component: () =>
     import("../views/cosRecommend.vue")
+  },
+  {
+    path: "/reviews",
+    name: "reviews",
+    component: () =>
+    import("../views/totalReviews.vue")
   }
+
 ];
 
 const router = new VueRouter({

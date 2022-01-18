@@ -62,7 +62,7 @@
             </v-list-item-content>  
           </v-list-item>
           
-          <v-list-item exact>
+          <v-list-item router :to="{name:'reviews'}" exact>
             <v-list-item-content>
               <v-list-item-title>
                 리뷰
@@ -87,19 +87,21 @@
       <v-toolbar-title>RECOS</v-toolbar-title>
       
         <v-spacer></v-spacer>
+        <div>
         <v-btn
-              color = "grey lighten-1"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              v-if="isLogin"
-              flat
-              icon
-              @click="clickLogout()"
-            >
-          logout
-        </v-btn>
-        <v-btn flat v-else router :to="{name: 'login'}">login</v-btn>
+                color = "grey lighten-1"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                v-if="isLogin"
+                flat
+                icon
+                @click="clickLogout()"
+              >
+            logout
+          </v-btn>
+          <v-btn flat v-else router :to="{name: 'login'}">login</v-btn>
+        </div>
         <!-- <v-menu
           top
           :close-on-content-click="closeOnContentClick"
@@ -155,14 +157,6 @@ export default {
       ...mapState(['isLogin'])
     },
     methods: {
-      // clickFunction(title) {
-      //   if (title === 'mypage')
-      //     this.$router.push({name: "mypage"})
-      //   else 
-      //     this.$store.dispatch("logout")
-        
-      // },
-      // 안됨... 왜 안되지...
       clickLogout() {
         this.$confirm('정말 로그아웃 하시겠습니까?')
         .then(res => {

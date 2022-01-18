@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from '../router/index' // eslint-disable-line no-unused-vars
 import axios from "axios"
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -37,7 +38,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    signUp({commit}, signUpObj) { // eslint-disable-line no-unused-vars
+    signUp({dispatch}, signUpObj) { 
       //signUpObj = {'username': , 'password': , 'birth': , 'emial': , 'sex': }
       axios({
         method: 'post',
@@ -45,7 +46,11 @@ export default new Vuex.Store({
         data: signUpObj
       })
       .then(response => {
-        console.log(response.data)
+        let token = response.data.access
+        localStorage.setItem('access', token)
+        localStorage.setItem('refresh', response.data.refresh)
+        dispatch('getMemberInfo')
+        router.push({name:"Home"})
       })
 
     },
@@ -126,7 +131,10 @@ export default new Vuex.Store({
         commit('loginSuccess', updateObj)
       })
 
-    }
+    },
   },
-  modules: {},
+  modules: {
+
+  },
+  plugins: [createPersistedState()],
 });

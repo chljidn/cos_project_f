@@ -25,8 +25,17 @@
           tile
         >
         </v-card>
-          <img :src="'http://127.0.0.1:8000'+review.reviewImage" height=100 width=100 />
-          {{review.reviewName}} <br>
+          <img :src="'http://127.0.0.1:8000'+review.reviewImage" height=100 width=100 
+          @click="handleClickButton"
+          />
+          <!-- {{review.reviewName}} <br> -->
+          <app-my-modal
+          title="this is modal"
+          :visible="visible">
+          <div>
+            this is modal body
+          </div>
+          </app-my-modal>
       </v-col>
     </v-row>
 
@@ -41,12 +50,13 @@
 
 <script>
 import {mapState, mapActions} from "vuex"
+import reviewModal from "../reviewComponents/reviewModal"
+
 export default {
-	data () {
+  data () {
 			return {
           reviews:this.$store.state.userInfo.reviews,
-          dialogm1: '',
-          dialog: false,
+          visible: false
 			}
 	},
 	computed: {
@@ -54,10 +64,15 @@ export default {
 	},
 	methods: {
 			...mapActions(["update"]),
-       
+      handleClickButton() {
+        this.visible = !this.visible
+      }
 	},
+  components: {
+    appMyModal: reviewModal
+  },
   mounted () {
     // console.log(this.reviews.reviewName)
-}
+  }
 }
 </script>
