@@ -91,7 +91,7 @@ const routes = [
     path: "/qna/:id",
     name: "qnadetail",
     component: () =>
-    import("../components/qnaComponents/qnaDetail.vue")
+    import("../views/qnaDetail.vue")
   },
   {
     path: "/recommend",

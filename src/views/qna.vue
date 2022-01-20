@@ -24,6 +24,7 @@
 </template>
 
 <style>
+/* 제목을 눌렀을 때 마우스 커서의 모양을 포인터를 가리키는 모양으로 바꾸기 위함. */
   .qa-row {
     cursor: pointer;
   }

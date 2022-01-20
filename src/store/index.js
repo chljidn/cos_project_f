@@ -91,7 +91,7 @@ export default new Vuex.Store({
           "Authorization":`Bearer ${token}`,
         }
       }
-      axios.get('http://127.0.0.1:8000/common/mypage/', config)
+      axios.get('http://127.0.0.1:8000/common/useredit/', config)
       //axios.get('http://127.0.0.1:8000/common/my_page/')
         .then(response => {
           console.log(response.data[0])
@@ -115,10 +115,10 @@ export default new Vuex.Store({
       // 비밀번호가 null일 경우 기존의 비밀번호를 다시 추가해서 request 요청을 보낸다.
         console.log(state.userInfo)
         console.log(state.userInfo.password)
-        console.log(updateObj.password)
+        console.log(updateObj)
       axios({
         method: 'put',
-        url: `http://127.0.0.1:8000/common/useredit/${state.userInfo.id}/`,
+        url: `http://127.0.0.1:8000/common/useredit/`,
         data: updateObj,
         xstfCookieName: 'csrftoken',
         xsrfHeaderName: 'X-CSRFToken',
