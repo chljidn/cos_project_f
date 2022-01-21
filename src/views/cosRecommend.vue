@@ -9,6 +9,13 @@
         label="File input"
         v-model="file"
       ></v-file-input>
+            <v-progress-circular
+      v-if ="progress"
+      :size="70"
+      :width="7"
+      color="purple"
+      indeterminate
+    ></v-progress-circular>
 
       <v-btn
         color="grey lighten-1"
@@ -35,7 +42,7 @@ export default {
     return {
       title : null,
       file: [],
-      
+      progress : false,
     }
   },
   methods: {
@@ -43,6 +50,7 @@ export default {
       const image = new FormData();
       image.append('title', this.title)
       image.append('pic', this.file)
+      this.progress_method()
 
     axios.post('http://127.0.0.1:8000/app/upload/'
     , image,
@@ -54,9 +62,12 @@ export default {
       }
     })
     .then(response => {
+      this.$router.push({name: "recommendresult", params: {resultData: response.data}})
       console.log(response)
     })
-
+    },
+    progress_method() {
+      this.progress = true
     }
   }
 }

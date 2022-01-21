@@ -117,7 +117,7 @@ export default new Vuex.Store({
         console.log(state.userInfo.password)
         console.log(updateObj)
       axios({
-        method: 'put',
+        method: 'patch',
         url: `http://127.0.0.1:8000/common/useredit/`,
         data: updateObj,
         xstfCookieName: 'csrftoken',

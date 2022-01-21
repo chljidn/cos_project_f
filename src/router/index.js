@@ -100,6 +100,11 @@ const routes = [
     import("../views/cosRecommend.vue")
   },
   {
+    path: "/recommend/result",
+    name : "recommendresult",
+    component: () => import("../views/recommendResult.vue")
+  },
+  {
     path: "/reviews",
     name: "reviews",
     component: () =>

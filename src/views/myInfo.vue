@@ -7,10 +7,7 @@
 		>
 			<!-- label은 input의 초기값. 단, data와 바인딩 되어 있지는 않음. 
 					v-model은 data()의 각 변수들과 바인딩되어 있다는 것으로 텍스트의 값이 바뀌면 그 값이 그대로 data()의 변수에 들어가게 됨.--> 
-			<v-text-field
-				label="id"
-				v-model="username"
-			></v-text-field>
+			<p>id : {{username}}</p>
 			<v-text-field
 				label="패스워드"
 				v-model="password"
@@ -47,11 +44,10 @@
       block
       large
       @click="update({
-        username:username,
         password: password,
         email:email,
         birth:birth,
-        sex:sex,  
+        sex:sex
       })"
     >수정</v-btn>
 	</div>

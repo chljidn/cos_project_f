@@ -20,15 +20,14 @@
       md="4"
       >
         <v-card
-          class="pa-2"
+          class="rounded-lg"
           outlined
           tile
+          
         >
-        </v-card>
           <img :src="'http://127.0.0.1:8000'+review.reviewImage" height=100 width=100 
-          @click="handleClickButton"
-          />
-          <!-- {{review.reviewName}} <br> -->
+            @click="handleClickButton" /> <br>
+          {{review.reviewName}}
           <app-my-modal
           title="this is modal"
           :visible="visible">
@@ -36,6 +35,7 @@
             this is modal body
           </div>
           </app-my-modal>
+        </v-card>
       </v-col>
     </v-row>
 
