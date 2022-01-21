@@ -1,38 +1,19 @@
 <template>
-	<v-container fill-height style="max-width:450px">
-		<v-layout align-center row wrap>
-			<v-flex xs12>
-				<v-card>
-					<v-toolbar flat>
-							<v-toolbar-title class="flex text-center">회원가입</v-toolbar-title>
-					</v-toolbar>
-					<div class="pa-3">
-						<v-text-field
-              label="id"
-              v-model="username"
-            ></v-text-field>
-            <v-text-field
-              label="password"
-              v-model="password"
-              type="password"
-            >
+  <v-container fill-height style="max-width: 450px">
+    <v-layout align-center row wrap>
+      <v-flex xs12>
+        <v-card>
+          <v-toolbar flat>
+            <v-toolbar-title class="flex text-center">회원가입</v-toolbar-title>
+          </v-toolbar>
+          <div class="pa-3">
+            <v-text-field label="id" v-model="username"></v-text-field>
+            <v-text-field label="password" v-model="password" type="password">
             </v-text-field>
-            <v-text-field
-              label ="email"
-              v-model="email"
-            ></v-text-field>
-            <v-radio-group
-              v-model="sex"
-              row
-            >
-              <v-radio
-                value="남"
-                label="남"        
-              ></v-radio>
-              <v-radio
-                value="여"
-                label="여"        
-              ></v-radio>
+            <v-text-field label="email" v-model="email"></v-text-field>
+            <v-radio-group v-model="sex" row>
+              <v-radio value="남" label="남"></v-radio>
+              <v-radio value="여" label="여"></v-radio>
             </v-radio-group>
 
             <v-menu
@@ -56,64 +37,69 @@
               <v-date-picker
                 v-model="birth"
                 :active-picker.sync="activePicker"
-                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                :max="
+                  new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+                    .toISOString()
+                    .substr(0, 10)
+                "
                 min="1950-01-01"
                 @change="save"
               ></v-date-picker>
             </v-menu>
-				
+
             <v-btn
-							color="grey lighten-1"
-							depressed
-							block
-							large
-							@click="signUp({
-								username:username,
-								password: password,
-                email: email,
-                sex: sex,
-                birth: birth
-							})"
-						>
-							회원가입
-						</v-btn>
-					</div>
-				</v-card>
-			</v-flex>
-		</v-layout>
-	</v-container>
+              color="grey lighten-1"
+              depressed
+              block
+              large
+              @click="
+                signUp({
+                  username: username,
+                  password: password,
+                  email: email,
+                  sex: sex,
+                  birth: birth,
+                })
+              "
+            >
+              회원가입
+            </v-btn>
+          </div>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
-
 <script>
-import { mapActions } from 'vuex';  // eslint-disable-line no-unused-vars
+import { mapActions } from "vuex"; // eslint-disable-line no-unused-vars
 
 export default {
-	data () {
-		return {
-			username: null,
-			password: null,
+  data() {
+    return {
+      username: null,
+      password: null,
       email: null,
-			sex: null,
+      sex: null,
       // date picker - birth
       activePicker: null,
       birth: null,
       menu: false,
-      }
-	},
+    };
+  },
   watch: {
     // date picker
-    menu (val) {
-      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    menu(val) {
+      val && setTimeout(() => (this.activePicker = "YEAR"));
     },
   },
-	methods: {
-		...mapActions(['signUp']),
+  methods: {
+    ...mapActions(["signUp"]),
 
     // date picker
-    save (birth) {
-      this.$refs.menu.save(birth)
+    save(birth) {
+      this.$refs.menu.save(birth);
     },
-	}
-}
+  },
+};
 </script>
