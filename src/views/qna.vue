@@ -9,7 +9,6 @@
               <td @click="qa_detail(item.id)">
                 {{ item.postname }}
               </td>
-              <td>{{ item.id }}</td>
               <td>{{ item.qa_user }}</td>
               <td>{{ item.qaDate }}</td>
             </tr>
@@ -37,12 +36,13 @@ export default {
       loading: false,
       headers: [
         {
-          text: "postname",
+          text: "제목",
           align: "start",
-          sortable: false,
+          sortable: true,
           value: "postname",
         },
-        { text: "id", value: "id" },
+        { text: "작성자", value: "qa_user" },
+        { text: "date", value: "qaDate" },
       ],
       qaList: [],
     };

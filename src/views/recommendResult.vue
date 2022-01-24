@@ -14,6 +14,7 @@
             <v-img :src="each_object.image" height="100" width="100" />
             {{ each_object.prdname }} <br />
             {{ each_object.brand }} <br />
+            {{ each_object.cosine }}
           </v-card>
         </v-col>
       </v-row>

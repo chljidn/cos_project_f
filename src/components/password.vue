@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div
+    style="
+      height: 300px;
+      width: 300px;
+      text-align: center;
+      margin-left: 40%;
+      margin-top: 15%;
+    "
+  >
     <v-text-field
       v-model="passwd"
       label="비밀번호"

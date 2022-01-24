@@ -22,9 +22,9 @@
 
 <script>
 import axios from "axios"; // eslint-disable-line no-unused-vars
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.withCredentials = true;
+// axios.defaults.xsrfCookieName = "csrftoken";
+// axios.defaults.xsrfHeaderName = "X-CSRFToken";
+// axios.defaults.withCredentials = true;
 
 export default {
   data() {
@@ -40,12 +40,10 @@ export default {
       image.append("title", this.title);
       image.append("pic", this.file);
       this.progress_method();
-
       axios
         .post("http://127.0.0.1:8000/app/upload/", image, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
             //'X-CSRFToken': 'csrftoken',
           },
         })
