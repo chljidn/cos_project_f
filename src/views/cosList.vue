@@ -95,7 +95,7 @@ export default {
           this.cosList = response.data.results;
           this.next = response.data.next;
           this.previous = response.data.previous;
-          this.count = parseInt(response.data.count / 60);
+          this.count = Math.ceil(response.data.count / 60);
           this.btn_color_list = Array(response.data.count).fill("disable");
 
           //유저가 좋아요 한 화장품의 id는 버튼 컬러를 pink로 처리.

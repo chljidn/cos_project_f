@@ -61,6 +61,14 @@
         >
       </template>
     </v-simple-table>
+    <div>
+      <v-pagination
+        v-model="page_num"
+        :length="count"
+        :total-visible="7"
+        @input="qnaList(page_num)"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -90,15 +98,32 @@ export default {
         { text: "date", value: "qaDate" },
       ],
       qaList: [],
+      page_num: 1,
+      next: null,
+      previus: null,
+      idx: 0,
+      count: null,
     };
   },
   mounted() {
-    axios.get("http://127.0.0.1:8000/common/qa/").then((response) => {
-      this.qaList = response.data.results;
-      console.log(this.qaList);
-    });
+    this.qnaList(this.page_num);
   },
   methods: {
+    qnaList(qa_page) {
+      axios
+        .get("http://127.0.0.1:8000/common/qa/", {
+          params: {
+            page: qa_page,
+          },
+        })
+        .then((response) => {
+          console.log(response.data.results);
+          this.qaList = response.data.results;
+          this.next = response.data.next;
+          this.previous = response.data.previous;
+          this.count = Math.ceil(response.data.count / 20);
+        });
+    },
     ...mapActions(["qa_detail"]),
   },
 };
