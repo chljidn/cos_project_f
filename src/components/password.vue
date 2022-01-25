@@ -37,7 +37,11 @@ export default {
         if (response.status == 200) {
           this.$router.push({
             name: "qnadetail",
-            params: { id: response.data[0].id, obj: response.data },
+            params: {
+              id: response.data[0].id,
+              obj: response.data,
+              detail: true,
+            },
           });
         } else {
           console.log("please password");
