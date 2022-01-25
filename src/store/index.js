@@ -115,7 +115,7 @@ export default new Vuex.Store({
       //console.log(state.userInfo)
       // 비밀번호가 null일 경우 기존의 비밀번호를 다시 추가해서 request 요청을 보낸다.
       console.log(state.userInfo);
-      console.log(state.userInfo.password);
+      console.log("password: ", updateObj.password);
       console.log(updateObj);
       axios({
         method: "patch",

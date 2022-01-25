@@ -8,8 +8,8 @@
       </v-text-field>
       <v-text-field label="email" v-model="email"></v-text-field>
       <v-radio-group v-model="sex" row>
-        <v-radio value="남" label="남"></v-radio>
-        <v-radio value="여" label="여"></v-radio>
+        <v-radio value="M" label="남"></v-radio>
+        <v-radio value="F" label="여"></v-radio>
       </v-radio-group>
       <v-text-field label="birth" v-model="birth"></v-text-field>
     </v-col>
@@ -55,10 +55,6 @@ export default {
   },
   methods: {
     ...mapActions(["update"]),
-  },
-  mounted() {
-    console.log(this.email);
-    console.log(this.like);
   },
 };
 </script>
