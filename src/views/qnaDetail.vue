@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="qna-detail-background-class" style="padding: 30px">
     <!-- qna를 읽거나 수정하는 경우 -->
-    <div>
+    <div class="qna-head-content-class">
       <v-col cols="12" md="6">
         <!-- <v-text-field :label="`title : ${qa_postname}`" solo> -->
         <v-text-field v-model="qa_postname" solo> </v-text-field>
@@ -12,7 +12,7 @@
             <v-btn primary @click="qna_update(qa_postname, qa_content)"
               >수정</v-btn
             >
-            <v-btn primary @click="qna_delete()">delete</v-btn>
+            <v-btn primary @click="qna_delete()">삭제</v-btn>
           </v-flex>
           <v-flex shrink v-if="this.$route.params.create">
             <v-btn
@@ -25,22 +25,42 @@
         </v-layout>
       </v-col>
     </div>
-    <div>
-      <table>
+    <div class="qna-reple-class" v-if="this.$route.params.detail">
+      댓글
+      <table class="qna-reple-table-class">
         <thead>
           <th>content</th>
           <th>user</th>
         </thead>
         <tbody>
           <tr v-for="reple in qa_reples" :key="reple.id">
-            <td>{{ reple.content }}</td>
-            <td>{{ reple.repleUser }}</td>
+            <td
+              style="
+                border-bottom: solid 1px;
+                padding-bottom: 2px;
+                padding-left: 3px;
+                text-align: '.';
+              "
+            >
+              {{ reple.content }}
+            </td>
+            <td style="text-align: center">{{ reple.repleUser }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </template>
+
+<style scoped>
+.qna-reple-class {
+  padding-top: 10px;
+  /* border: solid 1px; */
+}
+.qna-reple-table-class {
+  width: 100%;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -88,10 +108,14 @@ export default {
               "X-CSRFToken": "csrftoken",
               Authorization: `Bearer ${localStorage.getItem("access")}`,
             },
-          }).then(() => {
-            alert("질문글이 저장되었습니다.");
-            this.$router.go(-1);
-          });
+          })
+            .then(() => {
+              alert("질문글이 저장되었습니다.");
+              this.$router.go(-1);
+            })
+            .catch((error) => {
+              console.log(error.response);
+            });
         }
       });
     },

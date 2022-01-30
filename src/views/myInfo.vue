@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-3">
-    <v-col cols="12" sm="6" md="3">
+  <div class="my-info-background-class">
+    <div class="my-info-content-class">
       <!-- label은 input의 초기값. 단, data와 바인딩 되어 있지는 않음. 
 					v-model은 data()의 각 변수들과 바인딩되어 있다는 것으로 텍스트의 값이 바뀌면 그 값이 그대로 data()의 변수에 들어가게 됨.-->
       <p>id : {{ username }}</p>
@@ -12,29 +12,52 @@
         <v-radio value="F" label="여"></v-radio>
       </v-radio-group>
       <v-text-field label="birth" v-model="birth"></v-text-field>
-    </v-col>
-
-    <v-btn
-      style="width: 50px"
-      color="grey lighten-1"
-      depressed
-      block
-      large
-      @click="
-        update({
-          password: password,
-          email: email,
-          birth: birth,
-          sex: sex,
-        })
-      "
-      >수정</v-btn
-    >
+      <!-- <v-btn
+        :max-width="1"
+        style="float: right"
+        color="grey lighten-1"
+        depressed
+        large
+        @click="
+          update({
+            password: password,
+            email: email,
+            birth: birth,
+            sex: sex,
+          })
+        "
+        >수정</v-btn
+      > -->
+      <botton
+        style="float: right; cursor: pointer"
+        @click="
+          update({
+            password: password,
+            email: email,
+            birth: birth,
+            sex: sex,
+          })
+        "
+      >
+        수정
+      </botton>
+    </div>
   </div>
 </template>
 <style>
-.v-btn {
-  width: "36px";
+.my-info-background-class {
+  width: 100%;
+  height: 100%;
+  /* text-align: center; */
+  /* border: solid 1px; */
+}
+.my-info-content-class {
+  /* display: inline-block; */
+  /* border: solid 1px; */
+  width: 700px;
+  max-width: 60%;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 </style>
 

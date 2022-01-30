@@ -1,3 +1,4 @@
+
 <template>
   <div id="app">
     <vue-confirm-dialog></vue-confirm-dialog>
@@ -112,7 +113,6 @@
             </v-btn>
             <v-btn flat v-else router :to="{name: 'login'}">login</v-btn>
           </template>
-
           <v-list>
             <v-list-item
               v-for="(item, index) in items"
@@ -134,7 +134,6 @@
 
 <script>
 import { mapState } from "vuex"; // eslint-disable-line no-unused-vars
-
 export default {
   name: "app",
   data: () => ({

@@ -98,13 +98,13 @@ const routes = [
   {
     path: "/reviews",
     name: "reviews",
-    component: () => import("../views/totalReviews.vue"),
+    component: () => import("../views/reviews.vue"),
   },
   {
     path: "/check_password",
     name: "check_password",
-    component: () => import("../components/password.vue")
-  }
+    component: () => import("../components/password.vue"),
+  },
 ];
 
 const router = new VueRouter({

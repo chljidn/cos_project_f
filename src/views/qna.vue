@@ -1,74 +1,47 @@
 <template>
   <v-container>
-    <!-- <v-layout>
-      <v-flex>
-        <v-data-table :headers="headers" :items="qaList" class="elevation-1">
-          <template v-slot:item="{ item }">
-            vutify의 data table에서 router :to="{name: 'qnadetail', params: {id: item.id}}" 이 방식은 작동이 안됨
-            <tr class="qa-row">
-              <td @click="qa_detail(item.id)">
-                {{ item.postname }}
-              </td>
-              <td>{{ item.qa_user }}</td>
-              <td>{{ item.qaDate }}</td>
-            </tr>
-          </template>
-        </v-data-table>
-      </v-flex>
-    </v-layout> -->
-
-    <!-- <div>
-      <table>
-        <thead>
-          <th>title</th>
-          <th>username</th>
-          <th>date</th>
-        </thead>
-        <tbody>
-          <tr v-for="qa in qaList" :key="qa.id">
-            <td>
-              {{ qa.postname }}
-            </td>
-            <td>
-              {{ qa.qa_user }}
-            </td>
-            <td>
-              {{ qa.qaDate }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
-
-    <v-simple-table style="border: 1px solid">
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">title</th>
-            <th class="text-left">user</th>
-            <th class="text-left">date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="qa in qaList" :key="qa.id" class="qa-row">
-            <td @click="qa_detail(qa.id)">{{ qa.postname }}</td>
-            <td>{{ qa.qa_user }}</td>
-            <td>{{ qa.qaDate }}</td>
-          </tr>
-        </tbody>
-        <v-btn router :to="{ name: 'qnadetail', params: { create: true } }"
-          >qna 작성</v-btn
-        >
-      </template>
-    </v-simple-table>
-    <div>
-      <v-pagination
-        v-model="page_num"
-        :length="count"
-        :total-visible="7"
-        @input="qnaList(page_num)"
-      ></v-pagination>
-    </div>
+    <header></header>
+    <body>
+      <div class="total-background">
+        <div class="table-background">
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">title</th>
+                  <th class="text-left">user</th>
+                  <th class="text-left">date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="qa in qaList" :key="qa.id" class="qa-row">
+                  <td @click="qa_detail(qa.id)">{{ qa.postname }}</td>
+                  <td>{{ qa.qa_user }}</td>
+                  <td>{{ qa.qaDate }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          <button
+            style="float: right"
+            @click="
+              $router.push({ name: 'qnadetail', params: { create: true } })
+            "
+          >
+            글쓰기
+          </button>
+          <div>
+            <v-pagination
+              v-model="page_num"
+              :length="count"
+              :total-visible="7"
+              @input="qnaList(page_num)"
+            ></v-pagination>
+          </div>
+        </div>
+      </div>
+    </body>
+    <footer></footer>
   </v-container>
 </template>
 
@@ -77,12 +50,21 @@
 .qa-row {
   cursor: pointer;
 }
+.total-background {
+  padding: 30px;
+  padding-top: 50px;
+}
+.table-background {
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
 </style>
 
 <script>
 import { mapActions } from "vuex";
 import axios from "axios";
-// import dayjs from "dayjs"
+
 export default {
   data() {
     return {

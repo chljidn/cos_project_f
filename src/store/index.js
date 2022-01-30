@@ -15,6 +15,7 @@ export default new Vuex.Store({
     userInfo: null,
     isLogin: false,
     isLoginError: false,
+    reviewModalWindow: false,
   },
   mutations: {
     // 로그인이 성공했을 때
@@ -36,6 +37,10 @@ export default new Vuex.Store({
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
     },
+    checkReviewModal(state) {
+      state.reviewModalWindow = !state.reviewModalWindow
+    }
+
   },
   actions: {
     signUp({ dispatch }, signUpObj) {
@@ -94,7 +99,6 @@ export default new Vuex.Store({
         .get("http://127.0.0.1:8000/common/useredit/", config)
         //axios.get('http://127.0.0.1:8000/common/my_page/')
         .then((response) => {
-          console.log(response.data[0]);
           let userInfo = {
             // eslint-disable-line no-unused-vars
             id: response.data[0].id,
@@ -105,9 +109,7 @@ export default new Vuex.Store({
             like: response.data[0].like,
             reviews: response.data[0].cosreviewmodel_set,
           };
-          console.log(response.data);
           commit("loginSuccess", userInfo);
-          //router.push({ name: "Home" })
         });
     },
     update({ commit, state }, updateObj) {
@@ -128,8 +130,18 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
       }).then((response) => {
-        state.userInfo = response.data.results;
-        commit("loginSuccess", updateObj);
+        alert("회원정보 수정이 정상적으로 완료되었습니다.")
+        let userInfo = {
+          // eslint-disable-line no-unused-vars
+          id: response.data[0].id,
+          username: response.data[0].username,
+          email: response.data[0].email,
+          sex: response.data[0].sex,
+          birth: response.data[0].birth,
+          like: response.data[0].like,
+          reviews: response.data[0].cosreviewmodel_set,
+        };
+        commit("loginSuccess", userInfo);
       });
     },
     // eslint-disable-next-line no-unused-vars

@@ -18,23 +18,21 @@
             :src="'http://127.0.0.1:8000' + review.reviewImage"
             height="100"
             width="100"
-            @click="handleClickButton"
+            @click="modalClick"
           />
           <br />
           {{ review.reviewName }}
-          <app-my-modal title="this is modal" :visible="visible">
-            <div>this is modal body</div>
-          </app-my-modal>
         </v-card>
+        <modal
+          :reviewId="review.id"
+          :reviewName="review.reviewName"
+          :reviewUser="review.reviewUser"
+          :reviewContent="review.reviewContent"
+          :reviewImage="review.reviewImage"
+          :reviewCos="review.reviewCos"
+        ></modal>
       </v-col>
     </v-row>
-
-    <v-pagination
-      v-model="page_num"
-      :length="count"
-      :total-visible="7"
-      @input="page_function(page_num)"
-    ></v-pagination>
   </v-container>
 </template>
 
@@ -54,15 +52,16 @@ export default {
   },
   methods: {
     ...mapActions(["update"]),
-    handleClickButton() {
-      this.visible = !this.visible;
+    modalClick() {
+      // 이렇게 mutation으로 state의 변수를 바꾸어 주어야 한다. this.$store.state로 변경하면 그 결과가 바로 적용되지 않는다.
+      this.$store.commit("checkReviewModal");
     },
   },
   components: {
-    appMyModal: reviewModal,
+    modal: reviewModal,
   },
   mounted() {
-    // console.log(this.reviews.reviewName)
+    console.log(this.reviews);
   },
 };
 </script>
