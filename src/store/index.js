@@ -3,9 +3,9 @@ import Vuex from "vuex";
 import router from "../router/index"; // eslint-disable-line no-unused-vars
 import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
+import VueCookies from "vue-cookies";// eslint-disable-line no-unused-vars
 
-Vue.use(Vuex);
-
+Vue.use(Vuex).use(VueCookies);
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
@@ -34,27 +34,30 @@ export default new Vuex.Store({
       state.isLoginError = false;
       state.userInfo = null;
       // 남아있는 token을 지워준다.
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
+      Vue.$cookies.remove("access");
+      Vue.$cookies.remove("refresh");
     },
     checkReviewModal(state) {
-      state.reviewModalWindow = !state.reviewModalWindow
+      state.reviewModalWindow = !state.reviewModalWindow;
     }
 
   },
   actions: {
-    signUp({ dispatch }, signUpObj) {
+    signUp({ dispatch }, signUpObj) { // eslint-disable-line no-unused-vars
       //signUpObj = {'username': , 'password': , 'birth': , 'emial': , 'sex': }
       axios({
         method: "post",
-        url: "http://127.0.0.1:8000/common/auth/",
+        url: "http://127.0.0.1:8000/common/signup/",
         data: signUpObj,
       }).then((response) => {
         let token = response.data.access;
         localStorage.setItem("access", token);
         localStorage.setItem("refresh", response.data.refresh);
         dispatch("getMemberInfo");
+        alert("회원가입이 완료되었습니다.");
         router.push({ name: "Home" });
+      }).catch((error) => {
+        alert(error.response.data.message);
       });
     },
     // 로그인 시도
@@ -63,7 +66,7 @@ export default new Vuex.Store({
       // eslint-disable-line no-unused-vars
       axios({
         method: "post",
-        url: "http://127.0.0.1:8000/common/auth/",
+        url: "http://127.0.0.1:8000/common/login/",
         data: {
           username: loginObj.username,
           password: loginObj.password,
@@ -75,9 +78,8 @@ export default new Vuex.Store({
         },
       }).then((response) => {
         //axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-        let token = response.data.access;
-        localStorage.setItem("access", token);
-        localStorage.setItem("refresh", response.data.refresh);
+        Vue.$cookies.set("access", response.data["access"]);
+        Vue.$cookies.set("refresh", response.data["refresh"]);
         dispatch("getMemberInfo");
         // 로그인 성공 시 뒤로가기.
         router.go(-1);
@@ -88,7 +90,7 @@ export default new Vuex.Store({
       router.push({ name: "Home" });
     },
     getMemberInfo({ commit }) {
-      let token = localStorage.getItem("access");
+      let token = Vue.$cookies.get("access");
       let config = {
         // eslint-disable-line no-unused-vars
         headers: {
@@ -96,20 +98,22 @@ export default new Vuex.Store({
         },
       };
       axios
-        .get("http://127.0.0.1:8000/common/useredit/", config)
-        //axios.get('http://127.0.0.1:8000/common/my_page/')
+        .get(`http://127.0.0.1:8000/common/myinfo/${localStorage.getItem("id")}/`, config)
         .then((response) => {
           let userInfo = {
             // eslint-disable-line no-unused-vars
-            id: response.data[0].id,
-            username: response.data[0].username,
-            email: response.data[0].email,
-            sex: response.data[0].sex,
-            birth: response.data[0].birth,
-            like: response.data[0].like,
-            reviews: response.data[0].cosreviewmodel_set,
+            id: response.data.id,
+            username: response.data.username,
+            email: response.data.email,
+            sex: response.data.sex,
+            birth: response.data.birth,
+            like: response.data.like,
+            reviews: response.data.cosreviewmodel_set,
+            recommends: response.data.recommends_excel_set
           };
           commit("loginSuccess", userInfo);
+        }).catch((error) => { // eslint-disable-line no-unused-vars
+          console.log(error);
         });
     },
     update({ commit, state }, updateObj) {
@@ -118,19 +122,23 @@ export default new Vuex.Store({
       // 비밀번호가 null일 경우 기존의 비밀번호를 다시 추가해서 request 요청을 보낸다.
       console.log(state.userInfo);
       console.log("password: ", updateObj.password);
-      console.log(updateObj);
+      if (updateObj["password"] == '') {
+        Vue.delete(updateObj, "password")
+      }
+      console.log(updateObj)
       axios({
         method: "patch",
-        url: `http://127.0.0.1:8000/common/useredit/`,
+        url: `http://127.0.0.1:8000/common/myinfo/${localStorage.getItem("id")}/`,
         data: updateObj,
         xstfCookieName: "csrftoken",
         xsrfHeaderName: "X-CSRFToken",
         headers: {
           "X-CSRFToken": "csrftoken",
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
+          Authorization: `Bearer ${Vue.$cookies.get("access")}`,
         },
       }).then((response) => {
-        alert("회원정보 수정이 정상적으로 완료되었습니다.")
+        alert("회원정보 수정이 정상적으로 완료되었습니다.");
+        console.log(response.data)
         let userInfo = {
           // eslint-disable-line no-unused-vars
           id: response.data[0].id,
@@ -147,14 +155,14 @@ export default new Vuex.Store({
     // eslint-disable-next-line no-unused-vars
     qa_detail({ commit }, qa_id) {
       axios
-        .get(`http://127.0.0.1:8000/common/qa/${qa_id}/qa_detail/`)
+        .get(`http://127.0.0.1:8000/common/qa/${qa_id}/`)
         .then((response) => {
           console.log(response.data);
           router.push({
             name: "qnadetail",
             // qna 디테일 페이지(수정)와 생성 페이지를 같은 vue로 사용하기 위함. 생성으로 들어갈 때에는 파라미터에 create만 존재하고 detail은 존재하지 않는다. 그 역은 반대이다.
             params: {
-              id: response.data[0].id,
+              id: response.data.id,
               obj: response.data,
               detail: true,
             },
@@ -168,7 +176,7 @@ export default new Vuex.Store({
           router.push({
             name: "check_password",
             params: {
-              url: `http://127.0.0.1:8000/common/qa/${qa_id}/qa_detail/`,
+              url: `http://127.0.0.1:8000/common/qa/${qa_id}/`,
             },
           });
         });

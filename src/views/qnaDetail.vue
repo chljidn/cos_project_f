@@ -83,11 +83,11 @@ export default {
   mounted() {
     //detail(read or update)일 경우에만 마운트 할 때에 라우터로 넘어온 데이터를 매핑시킨다
     if (this.$route.params.detail) {
-      console.log(this.$route.params.obj[0]);
-      this.qa_id = this.$route.params.obj[0].id;
-      this.qa_postname = this.$route.params.obj[0].postname;
-      this.qa_content = this.$route.params.obj[0].content;
-      this.qa_reples = this.$route.params.obj[0].qareple_set;
+      console.log(this.$route.params.obj);
+      this.qa_id = this.$route.params.obj.id;
+      this.qa_postname = this.$route.params.obj.postname;
+      this.qa_content = this.$route.params.obj.content;
+      this.qa_reples = this.$route.params.obj.qareple_set;
     }
   },
   methods: {

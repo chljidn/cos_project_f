@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
-
 import VuetifyConfirm from "vuetify-confirm";
 Vue.use(VuetifyConfirm, {
   buttonTrueText: "예",
@@ -14,7 +13,8 @@ Vue.use(VuetifyConfirm, {
   title: "Warning",
   width: 350,
   property: "$confirm",
-});
+})
+
 
 Vue.config.productionTip = false;
 

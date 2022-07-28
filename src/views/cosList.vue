@@ -63,22 +63,6 @@ export default {
     ...mapState(["userInfo"]),
   },
   mounted() {
-    // axios.get('http://127.0.0.1:8000/app/cos_list/', {
-    //     params: {
-    //     }
-    //   })
-    //   .then(response => {
-    //     // handle success
-    //     console.log(response);
-    //     this.cosList = response.data.results
-    //     this.next = response.data.next
-    //     this.previous = response.data.previous
-    //     this.count = parseInt(response.data.count/60)
-    //   })
-    //   .catch(error => {
-    //       // handle error
-    //       console.log(error);
-    //   });
     this.page_function(this.page_num);
   },
   methods: {
@@ -90,8 +74,6 @@ export default {
           },
         })
         .then((response) => {
-          // handle success
-          // console.log(response);
           this.cosList = response.data.results;
           this.next = response.data.next;
           this.previous = response.data.previous;
@@ -109,9 +91,10 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      window.scrollTo(0, 0);
     },
     // eslint-disable-line no-unused-vars
-    cosLike(cosPk) {
+    cosLike(cosPk, cos) {
       // eslint-disable-line no-unused-vars
 
       // Dom에 배열이 변경된 것을 다시 리렌더링 하려면 splice같은 vue에서 지정된 함수를 써주어야 한다.
@@ -131,17 +114,8 @@ export default {
       }
 
       // 수정된 좋아요가 마이페이지에 다시 갱신되기 위해서는 백엔드에서 수정된 유저 데이터를 다시 받아야 한다.
-      // 그렇게 되면 계속적인 요청으로 백엔드에 부하가 걸리므로 방지해야 한다.
       // 때문에 현재 프론트에 저장되어 있는 유저 데이터를 수정하고, 백엔드에서 데이터를 다시 받기를 요청하지는 않도록 한다.
       // 데이터의 무결성을 원한다면 다시 유저 데이터를 받는게 안전하기는 하다.
-      // for (var i = 0; i <= this.$store.state.userInfo.like.length; i++)
-      //   if (cosPk == this.$store.state.userInfo.like[i].id) {
-      //     this.$store.state.userInfo.like.splice(i, 1)
-      //     break;
-      //   }
-      //   else if (i == this.$store.state.userInfo.like.length && cosPk != this.$store.state.userInfo.like[i].id) {
-      //     this.$store.state.userInfo.like.push(cos_object)
-      //   }
       axios({
         method: "post",
         url: "http://127.0.0.1:8000/app/coslike/",
@@ -149,8 +123,25 @@ export default {
           pk: cosPk,
         },
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
+          Authorization: `Bearer ${this.$cookies.get("access")}`,
         },
+      }).then((response) => {
+        if (response.status == 200) {
+          console.log(cos);
+          var idx = 0;
+          var len = this.userInfo.like.length;
+          while (idx <= len) {
+            if (this.userInfo.like[idx].prdname == cos.prdname) {
+              console.log(this.userInfo.like[idx].prdname, cos.prdname);
+              this.userInfo.like.splice(idx, 1);
+              break;
+            }
+            idx++;
+          }
+        } else if (response.status == 201) {
+          this.userInfo.like.push(cos);
+          console.log(201);
+        }
       });
     },
   },

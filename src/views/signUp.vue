@@ -55,10 +55,10 @@
               @click="
                 signUp({
                   username: username,
-                  password: password,
                   email: email,
-                  sex: sex,
                   birth: birth,
+                  sex: sex,
+                  password: password,
                 })
               "
             >

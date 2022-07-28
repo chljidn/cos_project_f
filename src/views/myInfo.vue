@@ -12,22 +12,6 @@
         <v-radio value="F" label="여"></v-radio>
       </v-radio-group>
       <v-text-field label="birth" v-model="birth"></v-text-field>
-      <!-- <v-btn
-        :max-width="1"
-        style="float: right"
-        color="grey lighten-1"
-        depressed
-        large
-        @click="
-          update({
-            password: password,
-            email: email,
-            birth: birth,
-            sex: sex,
-          })
-        "
-        >수정</v-btn
-      > -->
       <botton
         style="float: right; cursor: pointer"
         @click="

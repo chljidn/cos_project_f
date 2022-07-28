@@ -78,7 +78,6 @@
       <v-app-bar app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>RECOS</v-toolbar-title>
-
         <v-spacer></v-spacer>
         <div>
           <v-btn
@@ -95,34 +94,6 @@
           </v-btn>
           <v-btn flat v-else router :to="{ name: 'login' }">login</v-btn>
         </div>
-        <!-- <v-menu
-          top
-          :close-on-content-click="closeOnContentClick"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color = "grey lighten-1"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              v-if="isLogin"
-              flat
-              icon
-            >
-              <v-icon>mdi-format-list-bulleted-square</v-icon>
-            </v-btn>
-            <v-btn flat v-else router :to="{name: 'login'}">login</v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in items"
-              :key="index"
-              @click="clickFunction(item.title)"
-            >
-              <v-list-item-title>{{item.title}}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu> -->
       </v-app-bar>
 
       <v-main>
@@ -138,8 +109,37 @@ export default {
   name: "app",
   data: () => ({
     drawer: null,
-    items: [{ title: "mypage" }, { title: "logout" }],
+    item: [{ title: "mypage" }, { title: "logout" }],
     closeOnContentClick: true,
+
+    initiallyOpen: ["public"],
+    files: {
+      // html: "mdi-language-html5",
+      // js: "mdi-nodejs",
+      // json: "mdi-code-json",
+      // md: "mdi-language-markdown",
+      // pdf: "mdi-file-pdf",
+      // png: "mdi-file-image",
+      // txt: "mdi-file-document-outline",
+      // xls: "mdi-file-excel",
+    },
+    tree: [],
+    items: [
+      {
+        name: "public",
+        children: [
+          {
+            name: "static",
+          },
+          {
+            name: "favicon.ico",
+          },
+          {
+            name: "index.html",
+          },
+        ],
+      },
+    ],
   }),
   computed: {
     ...mapState(["isLogin"]),

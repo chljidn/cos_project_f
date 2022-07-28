@@ -2,7 +2,7 @@
   <div class="recommand-background-class">
     <div class="recommand-content-class">
       <div class="recommand-file-class">
-        <v-text-field label="Regular" v-model="title"></v-text-field>
+        <v-text-field label="name" v-model="title"></v-text-field>
         <v-file-input
           accept="image/*"
           label="File input"
