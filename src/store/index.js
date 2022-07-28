@@ -83,6 +83,8 @@ export default new Vuex.Store({
         dispatch("getMemberInfo");
         // 로그인 성공 시 뒤로가기.
         router.go(-1);
+      }).catch((err) => {
+        alert(err.response.data.message)
       });
     },
     logout({ commit }) {
