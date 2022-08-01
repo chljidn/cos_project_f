@@ -80,6 +80,7 @@ export default new Vuex.Store({
         //axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
         Vue.$cookies.set("access", response.data["access"]);
         Vue.$cookies.set("refresh", response.data["refresh"]);
+        localStorage.setItem("id", response.data["id"])
         dispatch("getMemberInfo");
         // 로그인 성공 시 뒤로가기.
         router.go(-1);
@@ -140,7 +141,6 @@ export default new Vuex.Store({
         },
       }).then((response) => {
         alert("회원정보 수정이 정상적으로 완료되었습니다.");
-        console.log(response.data)
         let userInfo = {
           // eslint-disable-line no-unused-vars
           id: response.data[0].id,

@@ -3,6 +3,7 @@
     <div class="recommand-content-class">
       <div class="recommand-file-class">
         <v-text-field label="name" v-model="title"></v-text-field>
+        <v-checkbox v-model="excel" label="엑셀 파일 저장"></v-checkbox>
         <v-file-input
           accept="image/*"
           label="File input"
@@ -56,6 +57,7 @@ export default {
       title: null,
       file: [],
       progress: false,
+      excel: false,
     };
   },
   methods: {
@@ -63,20 +65,27 @@ export default {
       const image = new FormData();
       image.append("title", this.title);
       image.append("pic", this.file);
-      this.progress_method();
+      image.append("recommend_save", this.excel);
+      if (this.excel == false) {
+        this.progress_method();
+      }
       axios
         .post("http://127.0.0.1:8000/app/upload/", image, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${this.$cookies.get("access")}`,
             //'X-CSRFToken': 'csrftoken',
           },
         })
         .then((response) => {
-          this.$router.push({
-            name: "recommendresult",
-            params: { resultData: response.data },
-          });
-          console.log(response);
+          if (this.excel == false) {
+            this.$router.push({
+              name: "recommendresult",
+              params: { resultData: response.data },
+            });
+          } else {
+            alert(response.data.message);
+          }
         });
     },
     progress_method() {

@@ -103,6 +103,7 @@ export default {
     axios({
       method: "get",
       url: "http://127.0.0.1:8000/app/cos_list/",
+      // cos_list는 url mapping을 사용하지 않았기 때문에 쿼리 파라미터로 보내주어야 함.
       params: {
         id: this.$route.params.id,
       },

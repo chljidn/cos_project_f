@@ -29,7 +29,17 @@
           })
         "
       >
-        my likes
+        my likes </a
+      ><br />
+      <a
+        style="color: black"
+        @click="
+          $router.push({
+            name: 'myrecommends',
+          })
+        "
+      >
+        my recommends
       </a>
     </div>
     <div class="my-page-content-class">

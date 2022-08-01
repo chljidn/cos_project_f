@@ -63,6 +63,11 @@ const routes = [
         name: "mylikes",
         component: () => import("../components/myPageComponents/myLikes.vue"),
       },
+      {
+        path: "/mypage/myrecommends",
+        name: "myrecommends",
+        component: () => import("../components/myPageComponents/myRecommends.vue"),
+      }
     ],
   },
   {
