@@ -38,7 +38,7 @@ export default {
           this.$router.push({
             name: "qnadetail",
             params: {
-              id: response.data[0].id,
+              id: response.data.id,
               obj: response.data,
               detail: true,
             },

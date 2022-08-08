@@ -112,7 +112,8 @@ export default new Vuex.Store({
             birth: response.data.birth,
             like: response.data.like,
             reviews: response.data.cosreviewmodel_set,
-            recommends: response.data.recommends_excel_set
+            recommends: response.data.recommends_excel_set,
+            qa: response.data.qa_set
           };
           commit("loginSuccess", userInfo);
         }).catch((error) => { // eslint-disable-line no-unused-vars
@@ -159,7 +160,6 @@ export default new Vuex.Store({
       axios
         .get(`http://127.0.0.1:8000/common/qa/${qa_id}/`)
         .then((response) => {
-          console.log(response.data);
           router.push({
             name: "qnadetail",
             // qna 디테일 페이지(수정)와 생성 페이지를 같은 vue로 사용하기 위함. 생성으로 들어갈 때에는 파라미터에 create만 존재하고 detail은 존재하지 않는다. 그 역은 반대이다.
@@ -170,15 +170,14 @@ export default new Vuex.Store({
             },
           });
         })
-        .catch((error) => {
+        .catch(() => {
           // eslint-disable-line no-unused-vars
           // 패스워드가 필요한 qna인 경우 check_password 컴포넌트에서 패스워드를 체크할 수 있도록 한다.
           // 각 url에 따라서 패스워드를 체크할 때 공통적인 컴포넌트로 사용하기 위해서 url을 받는다.
-          console.log(error);
           router.push({
             name: "check_password",
             params: {
-              url: `http://127.0.0.1:8000/common/qa/${qa_id}/`,
+              url: `http://127.0.0.1:8000/common/qa/${qa_id}/password_retrieve/`,
             },
           });
         });
