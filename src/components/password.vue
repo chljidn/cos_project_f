@@ -31,22 +31,26 @@ export default {
   mounted() {
     this.url = this.$route.params.url;
   },
+
   methods: {
     qa_detail_password(pd) {
-      axios.post(this.url, { password: pd }).then((response) => {
-        if (response.status == 200) {
+      console.log(pd);
+      axios
+        .post(this.url, { password: pd })
+        .then((response) => {
+          this.$store.commit("qa_data_mounted", response.data);
           this.$router.push({
             name: "qnadetail",
             params: {
-              id: response.data.id,
-              obj: response.data,
+              // id: response.data.id,
+              // obj: response.data,
               detail: true,
             },
           });
-        } else {
-          console.log("please password");
-        }
-      });
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
   },
 };

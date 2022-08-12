@@ -23,6 +23,7 @@
             </template>
           </v-simple-table>
           <button
+            v-if="isLogin"
             style="float: right"
             @click="
               $router.push({ name: 'qnadetail', params: { create: true } })
@@ -62,7 +63,7 @@
 </style>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -90,6 +91,9 @@ export default {
   mounted() {
     this.qnaList(this.page_num);
   },
+  computed: {
+    ...mapState(["isLogin"]),
+  },
   methods: {
     qnaList(qa_page) {
       axios
@@ -103,7 +107,7 @@ export default {
           this.qaList = response.data.results;
           this.next = response.data.next;
           this.previous = response.data.previous;
-          this.count = Math.ceil(response.data.count / 20);
+          this.count = Math.ceil(response.data.count / 15);
         });
     },
     ...mapActions(["qa_detail"]),

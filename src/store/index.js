@@ -16,6 +16,7 @@ export default new Vuex.Store({
     isLogin: false,
     isLoginError: false,
     reviewModalWindow: false,
+    now_qa_data: null,
   },
   mutations: {
     // 로그인이 성공했을 때
@@ -39,12 +40,24 @@ export default new Vuex.Store({
     },
     checkReviewModal(state) {
       state.reviewModalWindow = !state.reviewModalWindow;
+    },
+    qa_data_mounted(state, data) {
+      console.log("hi");
+      state.now_qa_data = data;
+    },
+    qa_data_delete(state) {
+      state.now_qa_data = null;
+    },
+    qa_reple_mounted(state, data) {
+      state.now_qa_data.qareple_set.unshift(data);
+    },
+    qa_reple_delete(state, idx) {
+      state.now_qa_data.qareple_set.splice(idx, 1)
     }
 
   },
   actions: {
     signUp({ dispatch }, signUpObj) { // eslint-disable-line no-unused-vars
-      //signUpObj = {'username': , 'password': , 'birth': , 'emial': , 'sex': }
       axios({
         method: "post",
         url: "http://127.0.0.1:8000/common/signup/",
@@ -156,16 +169,20 @@ export default new Vuex.Store({
       });
     },
     // eslint-disable-next-line no-unused-vars
-    qa_detail({ commit }, qa_id) {
+    qa_detail({ commit, state }, qa_id) {
+      commit("qa_data_reset");
       axios
         .get(`http://127.0.0.1:8000/common/qa/${qa_id}/`)
         .then((response) => {
+          commit("qa_data_mounted", response.data)
+          // state.now_qa_data = response.data;
+          console.log(state.now_qa_data)
           router.push({
             name: "qnadetail",
             // qna 디테일 페이지(수정)와 생성 페이지를 같은 vue로 사용하기 위함. 생성으로 들어갈 때에는 파라미터에 create만 존재하고 detail은 존재하지 않는다. 그 역은 반대이다.
             params: {
-              id: response.data.id,
-              obj: response.data,
+              // id: response.data.id,
+              // obj: response.data,
               detail: true,
             },
           });
